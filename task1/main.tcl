@@ -16,7 +16,7 @@ $rng seed 0
 set nf [open out.nam w]
 $ns namtrace-all $nf
 
-set outf [open out.dat w]
+set outf [open out.txt w]
 
 proc finish {} {
     global ns nf fmon_bn
