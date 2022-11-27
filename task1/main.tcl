@@ -5,6 +5,7 @@ set simend 30.0
 set mxwnd 1000
 set rng [new RNG]
 set p [lindex $argv 0]
+puts "p = $p"
 $rng seed 0
 
 # $ns color 0 Blue

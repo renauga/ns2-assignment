@@ -124,6 +124,6 @@ proc record_end { } {
             continue
         }
         set avg [expr $sum/$n]
-        # puts "Average transfer time for class $class: $avg"
+        puts "Average transfer time for class $class: $avg"
     }
 }
