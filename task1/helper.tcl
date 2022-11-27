@@ -89,6 +89,8 @@ proc start_flow {class} {
     if {$tt > $simend} {
         $nssim at $tt "$nssim halt"
     }
+    puts "Created flow with id: $ind, for class: $class"
+    puts "free:$freelist, reserved: $reslist"
 }
 set parr_start 0
 set pdrops_start 0
