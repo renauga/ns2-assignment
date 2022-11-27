@@ -10,7 +10,7 @@ set mpktsize 1460
 
 # bottleneck bandwidth, required for setting the load
 set bnbw 10000000
-set nof_tcps 100
+set nof_tcps 1
 set nof_classes 4
 set rho_cl [expr $rho/$nof_classes]
 puts "rho_cl=$rho_cl, nof_classes=$nof_classes"
@@ -25,7 +25,7 @@ for {set ii 0} {$ii < $nof_classes} {incr ii} {
     #contains the number of active flows as a function of time
     set nlist($ii) {} 
     #contains the free flows
-    set freelist($ii) {0}
+    set freelist($ii) {}
     #contains information of the reserved flows 
     set reslist($ii) {} 
 }
@@ -40,18 +40,18 @@ Agent/TCP instproc done {} {
     #the class is determined by the flow-ID and total number of tcp-sources
     set class [expr int(floor($flind/$nof_tcps))]
     set ind [expr $flind-$class*$nof_tcps]
-    puts "class: $class, flow id:$flind"
+    # puts "Flow of class: $class, flow id:$flind"
+    # puts "reserved flows:[llength $reslist($class)]"
     lappend nlist($class) [list [$nssim now] [llength $reslist($class)]]
+    
     for {set nn 0} {$nn < [llength $reslist($class)]} {incr nn} {
         set tmp [lindex $reslist($class) $nn]
         set tmpind [lindex $tmp 0]
-        puts "$tmpind $ind"
         if {$tmpind == $ind} {
             set mm $nn
             set starttime [lindex $tmp 1]
         }
     }
-    puts "reserved flows:[llength $reslist($class)]"
     set reslist($class) [lreplace $reslist($class) $mm $mm]
     lappend freelist($class) $ind
     set tt [$nssim now]
@@ -72,8 +72,7 @@ proc start_flow {class} {
     lappend nlist($class) [list $tt $resflows]
     if {$freeflows == 0} {
         puts "Class $class: At $tt, nof of free TCP sources == 0!!!"
-        puts "freelist($class)=$freelist($class)"
-        puts "reslist($class)=$reslist($class)"
+        # puts "reslist($class)=$reslist($class)"
         return
     }
     #take the first index from the list of free flows
@@ -89,8 +88,8 @@ proc start_flow {class} {
     if {$tt > $simend} {
         $nssim at $tt "$nssim halt"
     }
-    puts "Created flow with id: $ind, for class: $class"
-    puts "free:$freelist, reserved: $reslist"
+    # puts "Created flow with id: [expr $ind+$class], for class: $class"
+    # puts "free:$freelist($class), reserved: $reslist($class)"
 }
 set parr_start 0
 set pdrops_start 0
