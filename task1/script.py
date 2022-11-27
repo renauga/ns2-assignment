@@ -31,5 +31,5 @@ for g in strs:
   avg=avg/len(gfg_data)
   f.write(str(avg))
   f.write("\n")
-  print(st.t.interval(alpha=0.95,      df=len(gfg_data)-1,              loc=np.mean(gfg_data),scale=st.sem(gfg_data)))
+  print(st.t.interval(confidence=0.95,      df=len(gfg_data)-1,              loc=np.mean(gfg_data),scale=st.sem(gfg_data)))
 
