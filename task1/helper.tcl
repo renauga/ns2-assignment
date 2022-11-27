@@ -10,7 +10,7 @@ set mpktsize 1460
 
 # bottleneck bandwidth, required for setting the load
 set bnbw 10000000
-set nof_tcps 100
+set nof_tcps 1
 set nof_classes 4
 set rho_cl [expr $rho/$nof_classes]
 puts "rho_cl=$rho_cl, nof_classes=$nof_classes"
@@ -42,16 +42,19 @@ Agent/TCP instproc done {} {
     set ind [expr $flind-$class*$nof_tcps]
     puts "class: $class, flow id:$flind"
     lappend nlist($class) [list [$nssim now] [llength $reslist($class)]]
+    set mm -1
     for {set nn 0} {$nn < [llength $reslist($class)]} {incr nn} {
         set tmp [lindex $reslist($class) $nn]
         set tmpind [lindex $tmp 0]
-        puts "$tmpind $ind"
         if {$tmpind == $ind} {
             set mm $nn
             set starttime [lindex $tmp 1]
         }
     }
-    puts "reserved flows:[llength $reslist($class)]"
+    # puts "reserved flows:[llength $reslist($class)]"
+    if {$mm < 0} {
+        return
+    }
     set reslist($class) [lreplace $reslist($class) $mm $mm]
     lappend freelist($class) $ind
     set tt [$nssim now]
@@ -89,8 +92,8 @@ proc start_flow {class} {
     if {$tt > $simend} {
         $nssim at $tt "$nssim halt"
     }
-    puts "Created flow with id: $ind, for class: $class"
-    puts "free:$freelist, reserved: $reslist"
+    puts "Created flow with id: [expr $ind+$class], for class: $class"
+    puts "free:$freelist($class), reserved: $reslist($class)"
 }
 set parr_start 0
 set pdrops_start 0

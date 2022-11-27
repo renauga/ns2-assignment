@@ -3,6 +3,7 @@ set nssim $ns
 set simstart 0.1
 set simend 1000.0
 set rng [new RNG]
+$rng seed 0
 
 #Open the NAM trace file
 set nf [open out.nam w]
@@ -10,6 +11,7 @@ $ns namtrace-all $nf
 
 proc finish {} {
     global ns nf fmon_bn
+    record_end
     puts "FINISHED"
     $ns flush-trace
     #Close the NAM trace file
@@ -53,7 +55,7 @@ for {set i 0} {$i<$nof_classes} {incr i} {
     set tcp_s($i,0) [new Agent/TCP/Reno]
     $tcp_s($i,0) set packetSize_ 1460
     $tcp_s($i,0) set window_ 1000
-    $tcp_s($i,0) set fid_ 0
+    $tcp_s($i,0) set fid_ $i
     $ns attach-agent $s($i) $tcp_s($i,0)
 
     set tcp_d($i,0) [new Agent/TCPSink]
@@ -69,7 +71,6 @@ $ns at $simstart "record_start"
 for {set i 0} {$i<$nof_classes} {incr i} {
     $ns at $simstart "start_flow $i"
 }
-$ns at $simend "record_end"
 $ns at $simend "finish"
 
 $ns run
