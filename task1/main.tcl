@@ -1,9 +1,10 @@
 set ns [new Simulator]
 set nssim $ns
-set simstart 0.1
-set simend 10.0
+set simstart 0.0
+set simend 30.0
 set mxwnd 1000
 set rng [new RNG]
+set p [lindex $argv 0]
 $rng seed 0
 
 # $ns color 0 Blue
@@ -14,6 +15,8 @@ $rng seed 0
 #Open the NAM trace file
 set nf [open out.nam w]
 $ns namtrace-all $nf
+
+set outf [open out.dat w]
 
 proc finish {} {
     global ns nf fmon_bn
@@ -45,7 +48,7 @@ $loss_random_variable set max_ 100
 set loss_module [new ErrorModel] 
 $loss_module drop-target [new Agent/Null]
 #rate = p (in percentage)
-$loss_module set rate_ 1
+$loss_module set rate_ $p
 $loss_module ranvar $loss_random_variable 
 
 $ns lossmodel $loss_module $r $d

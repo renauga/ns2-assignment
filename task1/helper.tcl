@@ -27,7 +27,7 @@ for {set ii 0} {$ii < $nof_classes} {incr ii} {
     #contains the free flows
     set freelist($ii) {}
     #contains information of the reserved flows 
-    set reslist($ii) {} 
+    set reslist($ii) {}
 }
 Agent/TCP instproc done {} {
     global nssim freelist reslist ftp rng mfsize mean_intarrtime nof_tcps simstart simend delres nlist
@@ -50,12 +50,14 @@ Agent/TCP instproc done {} {
         if {$tmpind == $ind} {
             set mm $nn
             set starttime [lindex $tmp 1]
+            set fsize [lindex $tmp 2]
         }
     }
     set reslist($class) [lreplace $reslist($class) $mm $mm]
     lappend freelist($class) $ind
     set tt [$nssim now]
     if {$starttime > $simstart && $tt < $simend} {
+        puts "flow class: $class, time: [expr $tt-$starttime], file size: $fsize"
         lappend delres($class) [expr $tt-$starttime]
     }
     if {$tt > $simend} {
@@ -103,8 +105,23 @@ proc record_start {} {
 set parr_end 0
 set pdrops_end 0
 proc record_end { } {
-    global fmon_bn nssim parr_start pdrops_start nof_classes
+    global fmon_bn nssim parr_start pdrops_start nof_classes delres outf
     set parr_start [$fmon_bn set parrivals_]
     set pdrops_start [$fmon_bn set pdrops_]
     puts "Bottleneck at [$nssim now]: arr=$parr_start, drops=$pdrops_start"
+    for {set class 0} {$class < $nof_classes} {incr class} {
+        set sum 0
+        set n [llength $delres($class)]
+        puts $outf "$n $delres($class)"
+        for {set i 0} {$i < $n} {incr i} {
+            set ti [lindex $delres($class) $i]
+            set sum [expr $sum+$ti]
+        }
+        if {$sum == 0} {
+            puts "No files sent for class $class"
+            continue
+        }
+        set avg [expr $sum/$n]
+        puts "Average transfer time for class $class: $avg"
+    }
 }
