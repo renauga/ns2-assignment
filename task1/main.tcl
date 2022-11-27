@@ -1,7 +1,7 @@
 set ns [new Simulator]
 set nssim $ns
 set simstart 0.1
-set simend 1000.0
+set simend 20.0
 set mxwnd 1000
 set rng [new RNG]
 $rng seed 0
@@ -45,7 +45,7 @@ $loss_random_variable set max_ 100
 set loss_module [new ErrorModel] 
 $loss_module drop-target [new Agent/Null]
 #rate = p (in percentage)
-$loss_module set rate_ 5
+$loss_module set rate_ 1
 $loss_module ranvar $loss_random_variable 
 
 $ns lossmodel $loss_module $r $d
@@ -64,7 +64,7 @@ for {set i 0} {$i < $nof_classes} {incr i} {
         set tcp [new Agent/TCP/Reno]
         $tcp set class_ 2
         $tcp set packetSize_ 1460
-        $tcp set window_ mxwnd
+        $tcp set window_ $mxwnd
         $tcp set fid_ [expr $j+$nof_tcps*$i]
         $ns attach-agent $s($i) $tcp
 

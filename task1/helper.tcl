@@ -10,7 +10,7 @@ set mpktsize 1460
 
 # bottleneck bandwidth, required for setting the load
 set bnbw 10000000
-set nof_tcps 1
+set nof_tcps 100
 set nof_classes 4
 set rho_cl [expr $rho/$nof_classes]
 puts "rho_cl=$rho_cl, nof_classes=$nof_classes"
