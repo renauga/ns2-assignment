@@ -57,7 +57,7 @@ Agent/TCP instproc done {} {
     lappend freelist($class) $ind
     set tt [$nssim now]
     if {$starttime > $simstart && $tt < $simend} {
-        puts "flow class: $class, time: [expr $tt-$starttime], file size: $fsize"
+        # puts "flow class: $class, time: [expr $tt-$starttime], file size: $fsize"
         lappend delres($class) [expr $tt-$starttime]
     }
     if {$tt > $simend} {
@@ -122,6 +122,6 @@ proc record_end { } {
             continue
         }
         set avg [expr $sum/$n]
-        puts "Average transfer time for class $class: $avg"
+        # puts "Average transfer time for class $class: $avg"
     }
 }
