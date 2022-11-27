@@ -25,3 +25,18 @@ for i in range(0,4):
   plt.xlabel('bottleneck load')
   plt.ylabel('transfer time')
 plt.show()
+
+for i in range(0,4):
+  p=0.7
+  x=[]
+  y=[]
+  for j in range(0,200):
+    x.append(p)
+    p=p+0.001
+    y.append(500/avgs[4*j+i])
+   
+
+  plt.plot(x, y)
+  plt.xlabel('bottleneck load')
+  plt.ylabel('throughput')
+plt.show()

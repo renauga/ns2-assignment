@@ -25,3 +25,18 @@ for i in range(0,4):
   plt.xlabel('loss probability')
   plt.ylabel('transfer time')
 plt.show()
+
+for i in range(0,4):
+  p=0
+  x=[]
+  y=[]
+  for j in range(0,50):
+    x.append(p)
+    p=p+0.1
+    y.append(500/avgs[4*j+i])
+   
+
+  plt.plot(x, y)
+  plt.xlabel('loss probability')
+  plt.ylabel('throughput')
+plt.show()
