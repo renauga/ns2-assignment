@@ -1,7 +1,12 @@
-task1/*.nam
 *.nam
 *.tr
 *.dat
+*.txt
+task1/*.nam
 task1/*.tr
 task1/*.dat
-
+task1/*.txt
+task2/*.nam
+task2/*.tr
+task2/*.dat
+task2/*.txt
