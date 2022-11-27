@@ -1,15 +1,15 @@
 set ns [new Simulator]
 set nssim $ns
 set simstart 0.1
-set simend 20.0
+set simend 10.0
 set mxwnd 1000
 set rng [new RNG]
 $rng seed 0
 
-$ns color 0 Blue
-$ns color 1 Red
-$ns color 2 Green
-$ns color 3 Orange
+# $ns color 0 Blue
+# $ns color 1 Red
+# $ns color 2 Green
+# $ns color 3 Orange
 
 #Open the NAM trace file
 set nf [open out.nam w]

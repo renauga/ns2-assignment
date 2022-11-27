@@ -1,0 +1,7 @@
+task1/*.nam
+*.nam
+*.tr
+*.dat
+task1/*.tr
+task1/*.dat
+
