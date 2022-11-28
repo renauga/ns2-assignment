@@ -106,7 +106,7 @@ proc record_start {} {
 set parr_end 0
 set pdrops_end 0
 proc record_end { } {
-    global fmon_bn nssim parr_start pdrops_start nof_classes delres outf
+    global fmon_bn nssim parr_start pdrops_start nof_classes delres outf mpktsize
     set parr_start [$fmon_bn set parrivals_]
     set pdrops_start [$fmon_bn set pdrops_]
     set rate_start [expr double($pdrops_start)/$parr_start*100]
@@ -123,7 +123,8 @@ proc record_end { } {
             puts "No files sent for class $class"
             continue
         }
-        set avg [expr $sum/$n]
-        puts "Average transfer time for class $class: $avg"
+        # set avgtt [expr $sum/$n]
+        # set avgtp [expr $mpktsize/$avgtt]
+        # puts "Class: $class, Mean transfer time: $avgtt, Mean throughput: $avgtp"
     }
 }

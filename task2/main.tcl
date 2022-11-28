@@ -1,7 +1,7 @@
 set ns [new Simulator]
 set nssim $ns
 set simstart 0.0
-set simend 50.0
+set simend 200.0
 set mxwnd 1000
 set rho [expr double([lindex $argv 0])/100]
 set rng [new RNG]
